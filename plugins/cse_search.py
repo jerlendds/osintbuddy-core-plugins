@@ -3,11 +3,14 @@ import urllib
 from collections import defaultdict
 from pydantic import BaseModel
 import httpx
+import requests
 from osintbuddy.elements import TextInput, DropdownInput
 from osintbuddy.errors import OBPluginError
 import osintbuddy as ob
 
-cse_link_options = json.load(open("app/plugins/cses.json"))
+
+resp = requests.get('https://gist.githubusercontent.com/jerlendds/741d110f59a7d2ed2098325d30b00569/raw/dd7ec7584c6c939d97b7c0ace92c28e289a8a959/cses.json')
+cse_link_options = json.loads(resp.text)
 
 
 class CSESearchPlugin(ob.Plugin):
