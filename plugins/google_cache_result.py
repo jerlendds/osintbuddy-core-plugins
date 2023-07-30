@@ -14,6 +14,8 @@ class GoogleCacheResult(ob.Plugin):
         ],
     ]
 
+    author = 'the OSINTBuddy team'
+
     @ob.transform(label="To website", icon="world-www")
     async def transform_to_website(self, node, use):
         WebsitePlugin = await ob.Registry.get_plugin('website')

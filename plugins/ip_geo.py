@@ -5,7 +5,7 @@ class IPGeoPlugin(ob.Plugin):
     label = "IP Geo"
     show_label = False
 
-    description = 'test'
+    author = 'the OSINTBuddy team'
 
     color = "#FFCC33"
     node = [

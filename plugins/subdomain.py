@@ -11,4 +11,3 @@ class SubdomainPlugin(ob.Plugin):
     ]
 
     author = 'the OSINTBuddy team'
-    description = 'test'
