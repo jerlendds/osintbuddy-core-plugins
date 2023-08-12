@@ -1,6 +1,6 @@
 import json
 import re
-from osintbuddy.elements import Title
+from osintbuddy.elements import Title, TextInput
 import osintbuddy as ob
 
 
@@ -9,7 +9,10 @@ class DnsPlugin(ob.Plugin):
     label = "DNS"
     color = "#2181B5"
     icon = "server-2"
-    node = [Title(label="record")]
+    node = [
+        Title(label="record_type"),
+        TextInput(label="Value", icon="map-pin")
+    ]
 
     _items = [
         "NS",
@@ -43,14 +46,14 @@ class DnsPlugin(ob.Plugin):
                 _data = _data.strip('\\"')
 
         return {
-            "title": "",
-            "subtitle": f"{key} Record",
+            "title": None,
+            "subtitle":  f"{key} Record",
             "text": _data,
         }
 
     @ob.transform(label="Extract IP", icon="microscope")
     async def transform_extract_ip(self, node, use) -> list:
-        data = node.record['text']
+        data = node.value
         ip_regexp = re.compile("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}")
         results = []
         IPAddressPlugin = await ob.Registry.get_plugin('ip')

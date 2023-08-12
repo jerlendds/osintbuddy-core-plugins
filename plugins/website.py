@@ -97,8 +97,12 @@ class Website(ob.Plugin):
         data_filled = dict((k, v) for k, v in data.items() if v is not None)
         for key, value in data_filled.items():
             for entry in value:
+                record_type = DnsPlugin.record(key, entry)
+                record = record_type['text']
+                del record_type['text']
                 blueprint = DnsPlugin.blueprint(
-                    record=DnsPlugin.record(key, entry)
+                    record_type=record_type,
+                    value=record,
                 )
                 results.append(blueprint)
         return results

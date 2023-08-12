@@ -9,7 +9,7 @@ from osintbuddy.errors import OBPluginError
 import osintbuddy as ob
 
 
-resp = requests.get('https://gist.githubusercontent.com/jerlendds/741d110f59a7d2ed2098325d30b00569/raw/dd7ec7584c6c939d97b7c0ace92c28e289a8a959/cses.json')
+resp = requests.get('https://gist.githubusercontent.com/jerlendds/741d110f59a7d2ed2098325d30b00569/raw/25c15621eb67845db4ad65fc4ea8d3ad0991356f/cses.json')
 cse_link_options = json.loads(resp.text)
 
 
