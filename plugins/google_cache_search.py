@@ -17,16 +17,17 @@ from pydantic import BaseModel
 
 
 
-class GoogleCacheSearchPlugin(ob.Plugin):
+class GoogleCacheSearch(ob.Plugin):
     label = "Cache Search"
     color = "#145070"
     node = [
         TextInput(label="Query", icon="search"),
         TextInput(label="Pages", icon="123", default="3"),
     ]
-    author = 'the OSINTBuddy team'
-    description = 'Search the google cache'
-
+    author = "the OSINTBuddy team"
+    description = "Search the google cache"
+    icon = "brand-google-filled"
+    
     @ob.transform(label="To cache results")
     async def transform_to_google_cache_results(self, node, use):
         return await self.search_google_cache(node.query, node.pages)

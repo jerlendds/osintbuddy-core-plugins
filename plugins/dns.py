@@ -5,7 +5,7 @@ import osintbuddy as ob
 
 
 
-class DnsPlugin(ob.Plugin):
+class DNS(ob.Plugin):
     label = "DNS"
     color = "#2181B5"
     icon = "server-2"

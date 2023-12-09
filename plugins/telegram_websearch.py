@@ -2,15 +2,15 @@ import osintbuddy as ob
 from osintbuddy.elements import TextInput
 
 class TelegramWebsearch(ob.Plugin):
-    label = 'Telegram Websearch'
-    color = '#2AABEE'
-    icon = 'brand-telegram'
+    label = "Telegram Websearch"
+    color = "#2AABEE"
+    icon = "brand-telegram"
 
-    author = 'the OSINTBuddy team'
-    description = 'Surface telegram communities from across the web'
+    author = "the OSINTBuddy team"
+    description = "Surface telegram communities from across the web"
 
     node = [
-        TextInput(label='Query', icon='search', placeholder='Search Telegram...')
+        TextInput(label="Query", icon="search")
     ]
 
     telegram_cse_urls = [
@@ -24,8 +24,8 @@ class TelegramWebsearch(ob.Plugin):
 
     @ob.transform(label='To CSE Search', icon='')
     async def transform_to_websearch(self, node, use):
-        CSESearchPlugin = await ob.Registry.get_plugin('cse_search')
-        cse_plugin = CSESearchPlugin()
+        cse_search_entity = await ob.Registry.get_plugin('cse_search')
+        cse_plugin = cse_search_entity()
         results = []
         for url in self.telegram_cse_urls:
             resp = await cse_plugin.get_cse_results(query=node.query, cse_url=url)

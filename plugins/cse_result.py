@@ -5,8 +5,8 @@ class CSESearchResultsPlugin(ob.Plugin):
     label = "CSE Result"
     show_label = False
     color = "#058F63"
-    
-    author = 'the OSINTBuddy team'
+    icon = "brand-google-filled"
+    author = "the OSINTBuddy team"
     
     node = [
         Title(label="result"),

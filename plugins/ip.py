@@ -7,22 +7,31 @@ from osintbuddy.utils import to_camel_case
 import httpx
 import osintbuddy as ob
 
+def transform_for_whatever():
+    registry = [
+    "Plugin1"
+    "Plugin2"
+    "Plugin3" 
+]
 
-class IPAddressPlugin(ob.Plugin):
+    plugin = registry.get_plugin("plugin1")
+    plugin.blueprint()
+
+class IP(ob.Plugin):
     label = "IP"
     color = "#F47C00"
     node = [TextInput(label="IP Address", icon="map-pin")]
-
-    author = 'the OSINTBuddy team'
-    description = 'Reveal details on an IP address'
+    icon = "building-broadcast-tower"
+    author = "the OSINTBuddy team"
+    description = "Reveal details on an IP address"
 
     @ob.transform(label="To website", icon="world")
     async def transform_to_website(self, node, use):
-        WebsitePlugin = await ob.Registry.get_plugin('website')
+        website_entity = await ob.Registry.get_plugin('website')
         try:
             resolved = socket.gethostbyaddr(node.ip_address)
             if len(resolved) >= 1:
-                blueprint = WebsitePlugin.blueprint(domain=resolved[0])
+                blueprint = website_entity.blueprint(domain=resolved[0])
                 return blueprint
             else:
                 raise OBPluginError("No results found")
@@ -49,9 +58,9 @@ class IPAddressPlugin(ob.Plugin):
                 data = response.content.decode("utf8").split("\n")
         except Exception as e:
             raise OBPluginError(e)
-        SubdomainPlugin = await ob.Registry.get_plugin('subdomain')
+        subdomain_entity = await ob.Registry.get_plugin('subdomain')
         for subdomain in data:
-            blueprint = SubdomainPlugin.blueprint(subdomain=subdomain)
+            blueprint = subdomain_entity.blueprint(subdomain=subdomain)
             nodes.append(blueprint)
         return nodes
 

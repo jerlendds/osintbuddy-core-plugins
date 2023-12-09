@@ -13,8 +13,8 @@ class GoogleCacheResult(ob.Plugin):
             CopyText(label="URL"),
         ],
     ]
-
-    author = 'the OSINTBuddy team'
+    icon = "brand-google-filled"
+    author = "the OSINTBuddy team"
 
     @ob.transform(label="To website", icon="world-www")
     async def transform_to_website(self, node, use):

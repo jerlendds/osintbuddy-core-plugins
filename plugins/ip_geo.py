@@ -1,12 +1,11 @@
-from osintbuddy.elements import Text, Title, Empty
+from osintbuddy.elements import Title, Empty, TextInput
 import osintbuddy as ob
 
-class IPGeoPlugin(ob.Plugin):
-    label = "IP Geo"
+class IPGeolocation(ob.Plugin):
+    label = "IP Geolocation"
     show_label = False
-
-    author = 'the OSINTBuddy team'
-
+    icon = "map-pin"
+    author = "the OSINTBuddy team"
     color = "#FFCC33"
     node = [
         [
@@ -14,40 +13,40 @@ class IPGeoPlugin(ob.Plugin):
             Title(label="summary-data", title="Summary"),
         ],
         [
-            Text(label="City", icon="map-pin"),
-            Text(label="ASN", icon="access-point"),
+            TextInput(label="City", icon="map-pin"),
+            TextInput(label="ASN", icon="access-point"),
         ],
         [
-            Text(label="State", icon="map-pin"),
-            Text(label="Hostname", icon="access-point"),
+            TextInput(label="State", icon="map-pin"),
+            TextInput(label="Hostname", icon="access-point"),
         ],
         [
-            Text(label="Country", icon="map-pin"),
-            Text(label="Range", icon="access-point"),
+            TextInput(label="Country", icon="map-pin"),
+            TextInput(label="Range", icon="access-point"),
         ],
         [
-            Text(label="Postal", icon="map-pin"),
-            Text(label="Company", icon="trademark"),
+            TextInput(label="Postal", icon="map-pin"),
+            TextInput(label="Company", icon="trademark"),
         ],
         [
-            Text(label="Timezone", icon="clock"),
-            Text(label="Hosted domains", icon="access-point"),
+            TextInput(label="Timezone", icon="clock"),
+            TextInput(label="Hosted domains", icon="access-point"),
         ],
         [
-            Text(label="Coordinates", icon="map-pin"),
-            Text(label="Privacy", icon="network"),
-        ],
-        [
-            Empty(),
-            Text(label="Anycast", icon="network"),
+            TextInput(label="Coordinates", icon="map-pin"),
+            TextInput(label="Privacy", icon="network"),
         ],
         [
             Empty(),
-            Text(label="ASN type", icon="access-point"),
+            TextInput(label="Anycast", icon="network"),
         ],
         [
             Empty(),
-            Text(label="Abuse Contact", icon="map-pin"),
+            TextInput(label="ASN type", icon="access-point"),
+        ],
+        [
+            Empty(),
+            TextInput(label="Abuse Contact", icon="map-pin"),
         ],
     ]
 

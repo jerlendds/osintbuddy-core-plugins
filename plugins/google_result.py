@@ -8,13 +8,13 @@ class GoogleResult(ob.Plugin):
     show_label = False
     color = "#308e49"
     node = [Title(label="result"), CopyText(label="url")]
-
-    author = 'the OSINTBuddy team'
+    icon = "brand-google-filled"
+    author = "the OSINTBuddy team"
 
     @ob.transform(label="To website", icon="world")
     async def transform_to_website(self, node, use):
-        WebsitePlugin = await ob.Registry.get_plugin('website')
-        blueprint = WebsitePlugin.blueprint(
+        website_entity = await ob.Registry.get_plugin('website')
+        blueprint = website_entity.blueprint(
             domain=urlparse(node.url).netloc
         )
         return blueprint

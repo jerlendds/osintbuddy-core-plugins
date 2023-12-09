@@ -17,24 +17,24 @@ from pydantic import BaseModel
 
 
 
-class GoogleSearchPlugin(ob.Plugin):
+class GoogleSearch(ob.Plugin):
     label = "Google Search"
     color = "#3D78D9"
     node = [
         TextInput(label="Query", icon="search"),
         TextInput(label="Pages", icon="123", value="3"),
     ]
-
-    author = 'the OSINTBuddy team'
-    description = 'Search google using the advanced operators you\'re used to'
+    icon = "brand-google-filled"
+    author = "the OSINTBuddy team"
+    description = "Search google using the advanced operators you're used to"
 
     @ob.transform(label="To results")
     async def transform_to_google_results(self, node, use):
         # print("@todo refactor transform node API: ", node)
         results = []
-        GoogleResult = await ob.Registry.get_plugin('google_result')
+        google_result_entity = await ob.Registry.get_plugin('google_result')
         for result in await self.search_google(node.query, node.pages):
-            blueprint = GoogleResult.blueprint(
+            blueprint = google_result_entity.blueprint(
                 result={
                     "title": result.get("title"),
                     "subtitle": result.get("breadcrumb"),

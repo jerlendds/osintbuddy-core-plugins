@@ -15,8 +15,8 @@ class Website(ob.Plugin):
         TextInput(label="Domain", icon="world-www"),
     ]
 
-    author = 'the OSINTBuddy team'
-    description = 'Reveal insights for any website'
+    author = "the OSINTBuddy team"
+    description = "Reveal insights for any website"
 
     @ob.transform(label="To IP", icon="building-broadcast-tower")
     async def transform_to_ip(self, node, use):
@@ -28,14 +28,13 @@ class Website(ob.Plugin):
 
     @ob.transform(label="To google", icon="world")
     async def transform_to_google(self, node, use):
-        # @todo
         results = []
-        GoogleSearchPlugin = await ob.Registry.get_plugin('google_search')
-        for result in await GoogleSearchPlugin().search_google(
+        google_search_entity = await ob.Registry.get_plugin('google_search')
+        for result in await google_search_entity().search_google(
             query=node.domain, pages="3"
         ):
-            GoogleResult = await ob.Registry.get_plugin('google_result')
-            blueprint = GoogleResult.blueprint(
+            google_result_entity = await ob.Registry.get_plugin('google_result')
+            blueprint = google_result_entity.blueprint(
                 result={
                     "title": result.get("title"),
                     "subtitle": result.get("breadcrumb"),
@@ -65,15 +64,15 @@ class Website(ob.Plugin):
                 raise OBPluginError(
                     "Captcha encountered, please try again later."
                 )
-            WhoisPlugin = await ob.Registry.get_plugin('whois')
-            return WhoisPlugin.blueprint(
+            whois_entity = await ob.Registry.get_plugin("whois")
+            return whois_entity.blueprint(
                 raw_whois="\n".join(self._parse_whois(raw_whois))
             )
 
     @ob.transform(label="To DNS", icon="world")
     async def transform_to_dns(self, node, use):
-        DnsPlugin = await ob.Registry.get_plugin('dns')
-        data = DnsPlugin.data_template()
+        dns_entity = await ob.Registry.get_plugin('dns')
+        data = dns_entity.data_template()
 
         if len(node.domain) == 0:
             raise NodeMissingValueError(
@@ -97,43 +96,15 @@ class Website(ob.Plugin):
         data_filled = dict((k, v) for k, v in data.items() if v is not None)
         for key, value in data_filled.items():
             for entry in value:
-                record_type = DnsPlugin.record(key, entry)
-                record = record_type['text']
-                del record_type['text']
-                blueprint = DnsPlugin.blueprint(
+                record_type = dns_entity.record(key, entry)
+                record = record_type["text"]
+                del record_type["text"]
+                blueprint = dns_entity.blueprint(
                     record_type=record_type,
                     value=record,
                 )
                 results.append(blueprint)
         return results
-
-    # @ob.transform(label='To subdomains', icon='world')
-    # async def transform_to_subdomains(self, node, use):
-    #     # @todo
-    #     return WebsitePlugin.blueprint(
-    #         domain=urlparse(node['data'][3]).netloc
-    #     )
-
-    # @ob.transform(label='To emails', icon='world')
-    # async def transform_to_emails(self, node, use):
-    #     # @todo
-    #     blueprint = WebsitePlugin.blueprint()
-    #     website = node['data'][3]
-    #     blueprint['elements'][0]['value'] = urlparse(website).netloc
-    #     return blueprint
-    # @ob.transform(label='To urlscan.io', icon='world')
-    # async def transform_to_urlscanio(self, node, use):
-    #     # @todo
-    #     blueprint = WebsitePlugin.blueprint()
-    #     domain = node['data'][0]
-    #     if domain:
-    #         domain = domain.replace('https://', '')
-    #         domain = domain.replace('http://', '')
-    #         params = {
-    #             'q': quote(domain),
-    #         }
-    #         res = requests.get('https://urlscan.io/api/v1/search/', params=params)
-    #     return blueprint
 
     @staticmethod
     def _parse_whois(whois_data):

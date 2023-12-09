@@ -13,12 +13,12 @@ resp = requests.get('https://gist.githubusercontent.com/jerlendds/741d110f59a7d2
 cse_link_options = json.loads(resp.text)
 
 
-class CSESearchPlugin(ob.Plugin):
+class CSESearch(ob.Plugin):
     label = "CSE Search"
 
     description = 'Search through hundreds of categorized custom search engines provided by Google'
     author = 'the OSINTBuddy team'
-
+    icon = "brand-google-filled"
     color = "#2C7237"
     node = [
         [
