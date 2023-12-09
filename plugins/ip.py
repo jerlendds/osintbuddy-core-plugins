@@ -7,15 +7,6 @@ from osintbuddy.utils import to_camel_case
 import httpx
 import osintbuddy as ob
 
-def transform_for_whatever():
-    registry = [
-    "Plugin1"
-    "Plugin2"
-    "Plugin3" 
-]
-
-    plugin = registry.get_plugin("plugin1")
-    plugin.blueprint()
 
 class IP(ob.Plugin):
     label = "IP"
