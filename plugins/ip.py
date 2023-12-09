@@ -93,7 +93,7 @@ class IP(ob.Plugin):
                 geolocation[to_camel_case(row)] = driver.find_element(
                     by=By.XPATH, value=self.get_geo_xpath(row)
                 ).text
-        IPGeolocationPlugin = await ob.Registry.get_plugin('ip_geo')
+        IPGeolocationPlugin = await ob.Registry.get_plugin('ip_geolocation')
         blueprint = IPGeolocationPlugin.blueprint(
             city=geolocation.get("city"),
             state=geolocation.get("state"),
