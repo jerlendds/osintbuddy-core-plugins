@@ -9,15 +9,19 @@ from osintbuddy.errors import OBPluginError
 import osintbuddy as ob
 
 
-resp = requests.get('https://gist.githubusercontent.com/jerlendds/741d110f59a7d2ed2098325d30b00569/raw/25c15621eb67845db4ad65fc4ea8d3ad0991356f/cses.json')
-cse_link_options = json.loads(resp.text)
+cse_link_options = []
+try:
+    resp = requests.get('https://gist.githubusercontent.com/jerlendds/741d110f59a7d2ed2098325d30b00569/raw/25c15621eb67845db4ad65fc4ea8d3ad0991356f/cses.json')
+    cse_link_options = json.loads(resp.text)
+except Exception as e:
+    print('Error loading CSE categories!', e)
 
 
 class CSESearch(ob.Plugin):
     label = "CSE Search"
 
     description = 'Search through hundreds of categorized custom search engines provided by Google'
-    author = 'the OSINTBuddy team'
+    author = "the OSINTBuddy team"
     icon = "brand-google-filled"
     color = "#2C7237"
     node = [
