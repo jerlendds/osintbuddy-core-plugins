@@ -29,7 +29,7 @@ class DNS(ob.Plugin):
         "DNAME",
     ]
 
-    author = ['the OSINTBuddy team', 'Bugfest']
+    author = ["the OSINTBuddy team", "Bugfest"]
 
     @classmethod
     def data_template(cls):

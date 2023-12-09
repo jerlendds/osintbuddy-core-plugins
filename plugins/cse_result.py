@@ -16,5 +16,5 @@ class CSESearchResultsPlugin(ob.Plugin):
 
     @ob.transform(label="To URL", icon='link')
     async def transform_to_url(self, node, **kwargs):
-        UrlPlugin = await ob.Registry.get_plugin('url')
-        return UrlPlugin.blueprint(url=node.url)
+        url_entity = await ob.Registry.get_plugin('url')
+        return url_entity.blueprint(url=node.url)
