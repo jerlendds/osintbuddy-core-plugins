@@ -1,6 +1,6 @@
 import json
 import re
-from osintbuddy.elements import Title, TextInput
+from osintbuddy.elements import TextInput, DropdownInput
 import osintbuddy as ob
 
 
@@ -8,10 +8,23 @@ import osintbuddy as ob
 class DNS(ob.Plugin):
     label = "DNS"
     color = "#2181B5"
-    icon = "server-2"
+    icon = "creative-commons-nd"
     entity = [
-        Title(label="record_type"),
-        TextInput(label="Value", icon="map-pin")
+        TextInput(label="Value", icon="file-description"),
+        DropdownInput(label="Record Type", options=[
+            { "label": "NS" },
+            { "label": "A" },
+            { "label": "AAAA" },
+            { "label": "CNAME" },
+            { "label": "MX" },
+            { "label": "SOA" },
+            { "label": "TXT" },
+            { "label": "PTR" },
+            { "label": "SRV" },
+            { "label": "CERT" },
+            { "label": "DCHID" },
+            { "label": "DNAME" }
+        ])
     ]
 
     _items = [

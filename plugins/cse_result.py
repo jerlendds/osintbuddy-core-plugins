@@ -1,4 +1,4 @@
-from osintbuddy.elements import Title, CopyText
+from osintbuddy.elements import Title, CopyText, Text
 import osintbuddy as ob
 
 class CSESearchResultsPlugin(ob.Plugin):
@@ -9,7 +9,9 @@ class CSESearchResultsPlugin(ob.Plugin):
     author = "the OSINTBuddy team"
     
     entity = [
-        Title(label="result"),
+        Title(label="title"),
+        Text(label="breadcrumb"),
+        Text(label="content"),
         CopyText(label="URL"),
         CopyText(label="Cache URL"),
     ]
