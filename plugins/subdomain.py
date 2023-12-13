@@ -6,7 +6,7 @@ class Subdomain(ob.Plugin):
     label = "Subdomain"
     show_label = False
     color = "#FFCC33"
-    node = [
+    entity = [
         TextInput(label="Subdomain", icon="world"),
     ]
     icon = "submarine"

@@ -11,7 +11,7 @@ class Website(ob.Plugin):
     label = "Website"
     color = "#1D1DB8"
     icon = "world-www"
-    node = [
+    entity: list[TextInput] = [
         TextInput(label="Domain", icon="world-www"),
     ]
 

@@ -6,7 +6,7 @@ import osintbuddy as ob
 class URL(ob.Plugin):
     label = "URL"
     color = '#642CA9'
-    node = [
+    entity = [
         TextInput(label="URL", icon="link"),
     ]
     author = "the OSINTBuddy team"

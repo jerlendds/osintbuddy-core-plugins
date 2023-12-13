@@ -9,7 +9,7 @@ class DNS(ob.Plugin):
     label = "DNS"
     color = "#2181B5"
     icon = "server-2"
-    node = [
+    entity = [
         Title(label="record_type"),
         TextInput(label="Value", icon="map-pin")
     ]

@@ -7,7 +7,7 @@ class GoogleCacheResult(ob.Plugin):
     label = "Cache Result"
     show_label = False
     color = "#145070"
-    node = [
+    entity = [
         Title(label="result", title="Some title"),
         [
             CopyText(label="URL"),

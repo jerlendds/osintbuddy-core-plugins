@@ -9,7 +9,7 @@ class TelegramWebsearch(ob.Plugin):
     author = "the OSINTBuddy team"
     description = "Surface telegram communities from across the web"
 
-    node = [
+    entity = [
         TextInput(label="Query", icon="search")
     ]
 

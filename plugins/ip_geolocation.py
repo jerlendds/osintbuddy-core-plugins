@@ -4,7 +4,7 @@ import osintbuddy as ob
 class IPGeolocation(ob.Plugin):
     label = "IP Geolocation"
     show_label = False
-    icon = "map-pin"
+    entity = "map-pin"
     author = "the OSINTBuddy team"
     color = "#FFCC33"
     node = [

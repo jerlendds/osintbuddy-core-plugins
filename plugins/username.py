@@ -9,7 +9,7 @@ from selenium.webdriver.common.by import By
 class Username(ob.Plugin):
     label = "Username"
     color = "#BF288D"
-    node = [
+    entity = [
         TextInput(label="Username", icon="user-search"),
     ]
     icon = "user-search"

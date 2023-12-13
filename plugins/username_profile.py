@@ -8,7 +8,7 @@ class UsernameProfile(ob.Plugin):
     icon = "user-scan"
     author = "the OSINTBuddy team"
     
-    node = [
+    entity = [
         TextInput(label='Category', icon='category'),
         TextInput(label='Site', icon='world'),
         TextInput(label='Link', icon='link'),

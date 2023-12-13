@@ -11,7 +11,7 @@ import osintbuddy as ob
 class IP(ob.Plugin):
     label = "IP"
     color = "#F47C00"
-    node = [TextInput(label="IP Address", icon="map-pin")]
+    entity = [TextInput(label="IP Address", icon="map-pin")]
     icon = "building-broadcast-tower"
     author = "the OSINTBuddy team"
     description = "Reveal details on an IP address"
@@ -29,10 +29,6 @@ class IP(ob.Plugin):
         except (socket.gaierror, socket.herror):
             raise OBPluginError("We ran into a socket error. Please try again")
 
-    # @ob.transform(label='To traceroute', icon='crosshair')
-    # async def transform_todo(self, node, use):
-    #     blueprint = IPGeolocationPlugin.blueprint()
-    #     return blueprint
     @ob.transform(label="To subdomains", icon="world")
     async def transform_to_subdomains(self, node, use):
         nodes = []

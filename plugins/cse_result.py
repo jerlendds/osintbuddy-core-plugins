@@ -8,7 +8,7 @@ class CSESearchResultsPlugin(ob.Plugin):
     icon = "brand-google-filled"
     author = "the OSINTBuddy team"
     
-    node = [
+    entity = [
         Title(label="result"),
         CopyText(label="URL"),
         CopyText(label="Cache URL"),

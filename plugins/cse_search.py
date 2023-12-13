@@ -24,7 +24,7 @@ class CSESearch(ob.Plugin):
     author = "the OSINTBuddy team"
     icon = "brand-google-filled"
     color = "#2C7237"
-    node = [
+    entity = [
         [
             TextInput(label="Query", icon="search"),
             TextInput(label="Pages", icon="123", default="1"),

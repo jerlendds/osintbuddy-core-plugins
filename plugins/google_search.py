@@ -1,26 +1,16 @@
-import json
-import re
-import socket
-
 import httpx
-from urllib.parse import urlparse
-import dns.resolver
-from selenium.webdriver.common.by import By
-from osintbuddy.elements import TextInput, Text, Title, Empty, DropdownInput, CopyText
+from osintbuddy.elements import TextInput
 from osintbuddy.errors import OBPluginError, NodeMissingValueError
-from osintbuddy.utils import to_camel_case
-import urllib
-from collections import defaultdict
-import httpx
+
 import osintbuddy as ob
-from pydantic import BaseModel
+
 
 
 
 class GoogleSearch(ob.Plugin):
     label = "Google Search"
     color = "#3D78D9"
-    node = [
+    entity: list[TextInput] = [
         TextInput(label="Query", icon="search"),
         TextInput(label="Pages", icon="123", value="3"),
     ]

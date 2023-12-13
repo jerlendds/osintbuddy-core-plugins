@@ -1,6 +1,5 @@
 import httpx
-from selenium.webdriver.common.by import By
-from osintbuddy.elements import TextInput, Text, Title, Empty, DropdownInput, CopyText
+from osintbuddy.elements import TextInput
 from osintbuddy.errors import OBPluginError, NodeMissingValueError
 import httpx
 import osintbuddy as ob
@@ -10,7 +9,7 @@ import osintbuddy as ob
 class GoogleCacheSearch(ob.Plugin):
     label = "Cache Search"
     color = "#145070"
-    node = [
+    entity = [
         TextInput(label="Query", icon="search"),
         TextInput(label="Pages", icon="123", default="3"),
     ]

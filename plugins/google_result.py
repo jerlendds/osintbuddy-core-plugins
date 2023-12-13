@@ -7,7 +7,7 @@ class GoogleResult(ob.Plugin):
     label = "Google Result"
     show_label = False
     color = "#308e49"
-    node = [Title(label="result"), CopyText(label="url")]
+    entity = [Title(label="result"), CopyText(label="url")]
     icon = "brand-google-filled"
     author = "the OSINTBuddy team"
 
