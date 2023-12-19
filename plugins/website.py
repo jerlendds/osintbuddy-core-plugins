@@ -11,7 +11,7 @@ class Website(ob.Plugin):
     label = "Website"
     color = "#1D1DB8"
     icon = "world-www"
-    entity: list[TextInput] = [
+    entity = [
         TextInput(label="Domain", icon="world-www"),
     ]
 
@@ -20,11 +20,10 @@ class Website(ob.Plugin):
 
     @ob.transform(label="To IP", icon="building-broadcast-tower")
     async def transform_to_ip(self, node, use):
-        IPAddressPlugin = await ob.Registry.get_plugin('ip')
-        blueprint = IPAddressPlugin.blueprint(
+        ip_entity = await ob.Registry.get_plugin('ip')
+        return ip_entity.blueprint(
             ip_address=socket.gethostbyname(node.domain)
         )
-        return blueprint
 
     @ob.transform(label="To google", icon="world")
     async def transform_to_google(self, node, use):
@@ -112,3 +111,7 @@ class Website(ob.Plugin):
         for line in whois_data.split("\n"):
             if "DNSSEC" in line:
                 data.append(line)
+                break
+            else:
+                data.append(line)
+        return data
