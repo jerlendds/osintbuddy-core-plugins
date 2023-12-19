@@ -20,10 +20,11 @@ class Website(ob.Plugin):
 
     @ob.transform(label="To IP", icon="building-broadcast-tower")
     async def transform_to_ip(self, node, use):
-        ip_entity = await ob.Registry.get_plugin('ip')
-        return ip_entity.blueprint(
+        IPAddressPlugin = await ob.Registry.get_plugin('ip')
+        blueprint = IPAddressPlugin.blueprint(
             ip_address=socket.gethostbyname(node.domain)
         )
+        return blueprint
 
     @ob.transform(label="To google", icon="world")
     async def transform_to_google(self, node, use):
@@ -53,7 +54,7 @@ class Website(ob.Plugin):
 
         with use.get_driver() as driver:
             driver.get(f"https://www.whois.com/whois/{domain}")
-            raw_whois = None
+            raw_whois = ""
             try:
                 raw_whois = driver.find_element(
                     by=By.TAG_NAME, value="pre"
@@ -64,8 +65,10 @@ class Website(ob.Plugin):
                     "Captcha encountered, please try again later."
                 )
             whois_entity = await ob.Registry.get_plugin("whois")
+            
             return whois_entity.blueprint(
-                raw_whois="\n".join(self._parse_whois(raw_whois))
+                whois_data="\n".join(self._parse_whois(raw_whois)),
+                raw_whois_data=raw_whois
             )
 
     @ob.transform(label="To DNS", icon="world")
