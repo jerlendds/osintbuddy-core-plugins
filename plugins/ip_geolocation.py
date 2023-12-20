@@ -7,11 +7,7 @@ class IPGeolocation(ob.Plugin):
     entity = "map-pin"
     author = "the OSINTBuddy team"
     color = "#FFCC33"
-    node = [
-        [
-            Title(label="geolocation-data", title="IP Geolocation"),
-            Title(label="summary-data", title="Summary"),
-        ],
+    entity = [
         [
             TextInput(label="City", icon="map-pin"),
             TextInput(label="ASN", icon="access-point"),
