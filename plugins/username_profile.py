@@ -9,9 +9,9 @@ class UsernameProfile(ob.Plugin):
     author = "the OSINTBuddy team"
     
     entity = [
+        TextInput(label='Link', icon='link'),
         TextInput(label='Category', icon='category'),
         TextInput(label='Site', icon='world'),
-        TextInput(label='Link', icon='link'),
         TextInput(label='Username', icon='user'),
     ]
 
