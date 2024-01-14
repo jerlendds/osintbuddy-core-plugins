@@ -15,7 +15,7 @@ class GoogleCacheResult(DiscoverableEntity):
     ]
 
     author = "Team@ICG"
-    description = "Cache Search Engine Results from Google"
+    description = "Cache Search Results powered by Google. Preview and access previously indexed Google search results"
 
     @transform(label="To website", icon="world-www")
     async def transform_to_website(self, context, use):

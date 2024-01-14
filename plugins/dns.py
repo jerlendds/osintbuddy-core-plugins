@@ -30,7 +30,7 @@ class DNS(DiscoverableEntity):
     ]
 
     author = ["Team@ICG", "Bugfest"]
-    description = "Various information associated with domain names"
+    description = "Represents DNS records with editable Value and Record Types, essential for mapping domain names to IP addresses"
     
     _items = [
         "NS",

@@ -58,7 +58,7 @@ class GoogleCSESearch(DiscoverableEntity):
     ]
 
     author = "Team@ICG"
-    description = 'Search through hundreds of categorized custom search engines from Google'
+    description = "CSE (Custom Search Engine) Search powered by Google. Search through hundreds of categorized CSEs"
 
     async def _map_cse_to_blueprint(self, resp):
         entities = []

@@ -11,7 +11,7 @@ class TelegramCseSearch(DiscoverableEntity):
     ]
 
     author = "Team@ICG"
-    description = "A cloud-based, cross-platform instant messaging service"
+    description = "CSE Search Results for a cloud-based instant messaging service (Telegram)"
 
     telegram_cse_urls = [
         "https://cse.google.com/cse?&cx=006368593537057042503:efxu7xprihg",

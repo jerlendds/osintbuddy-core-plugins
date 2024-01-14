@@ -14,4 +14,4 @@ class Whois(DiscoverableEntity):
     ]
 
     author = "Team@ICG"
-    description = "Raw public information from a WHOIS database"
+    description = "Raw information from the public WHOIS database"

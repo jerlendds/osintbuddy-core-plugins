@@ -16,7 +16,7 @@ class GoogleCacheSearch(DiscoverableEntity):
     ]
 
     author = "Team@ICG"
-    description = "Raw html backups of web content aka Google Cache Search"
+    description = "Cache Search Engine powered by Google. Preview and access previously indexed Google search results"
     
     @transform(label="To cache results")
     async def transform_to_google_cache_results(self, context, use):
