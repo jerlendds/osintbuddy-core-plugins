@@ -1,17 +1,17 @@
-import osintbuddy as ob
+from osintbuddy import transform, DiscoverableEntity, EntityRegistry
 from osintbuddy.elements import TextInput
 
-class TelegramWebsearch(ob.Plugin):
+class TelegramCseSearch(DiscoverableEntity):
     label = "Telegram Websearch"
-    color = "#2AABEE"
     icon = "brand-telegram"
+    color = "#2AABEE"
 
-    author = "the OSINTBuddy team"
-    description = "Surface telegram communities from across the web"
-
-    entity = [
+    properties = [
         TextInput(label="Query", icon="search")
     ]
+
+    author = "Team@ICG"
+    description = ""
 
     telegram_cse_urls = [
         "https://cse.google.com/cse?&cx=006368593537057042503:efxu7xprihg",
@@ -22,9 +22,9 @@ class TelegramWebsearch(ob.Plugin):
         "https://cse.google.com/cse?cx=004805129374225513871%3Ap8lhfo0g3hg",
     ]
 
-    @ob.transform(label='To CSE Search', icon='')
+    @transform(label='To CSE Search', icon='')
     async def transform_to_websearch(self, node, use):
-        cse_search_entity = await ob.Registry.get_plugin('cse_search')
+        cse_search_entity = await EntityRegistry.get_plugin('cse_search')
         cse_plugin = cse_search_entity()
         results = []
         for url in self.telegram_cse_urls:

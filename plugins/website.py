@@ -1,40 +1,43 @@
 import socket
 from urllib.parse import urlparse
-import dns.resolver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+
 from osintbuddy.elements import TextInput
 from osintbuddy.errors import OBPluginError, NodeMissingValueError
-import osintbuddy as ob
+from osintbuddy import transform, DiscoverableEntity, EntityRegistry
 
 
-class Website(ob.Plugin):
+class Website(DiscoverableEntity):
     label = "Website"
-    color = "#1D1DB8"
     icon = "world-www"
-    entity = [
+    color = "#005AA6"
+
+    properties = [
         TextInput(label="Domain", icon="world-www"),
     ]
 
-    author = "the OSINTBuddy team"
-    description = "Reveal insights for any website"
+    author = "Team@ICG"
+    description = "A collection of web pages and related content that is identified by a common domain name and published on at least one web server"
 
-    @ob.transform(label="To IP", icon="building-broadcast-tower")
-    async def transform_to_ip(self, node, use):
-        IPAddressPlugin = await ob.Registry.get_plugin('ip')
-        blueprint = IPAddressPlugin.blueprint(
+    @transform(label="To IP", icon="building-broadcast-tower")
+    async def to_ip(self, node, use):
+        ip_entity = await EntityRegistry.get_plugin('ip')
+        transform = ip_entity.create(
             ip_address=socket.gethostbyname(node.domain)
         )
-        return blueprint
+        return transform
 
-    @ob.transform(label="To google", icon="world")
-    async def transform_to_google(self, node, use):
+    @transform(label="To google", icon="world")
+    async def to_google(self, node, use):
         results = []
-        google_search_entity = await ob.Registry.get_plugin('google_search')
+        google_search_entity = await EntityRegistry.get_plugin('google_search')
         for result in await google_search_entity().search_google(
             query=node.domain, pages="3"
         ):
-            google_result_entity = await ob.Registry.get_plugin('google_result')
-            blueprint = google_result_entity.blueprint(
+            google_result_entity = await EntityRegistry.get_plugin('google_result')
+            blueprint = google_result_entity.create(
                 result={
                     "title": result.get("title"),
                     "subtitle": result.get("breadcrumb"),
@@ -45,8 +48,8 @@ class Website(ob.Plugin):
             results.append(blueprint)
         return results
 
-    @ob.transform(label="To WHOIS", icon="world")
-    async def transform_to_whois(self, node, use):
+    @transform(label="To WHOIS", icon="world")
+    async def to_whois(self, node, use):
         domain = node.domain
         if len(domain.split(".")) > 2:
             domain = domain.split(".")
@@ -56,6 +59,9 @@ class Website(ob.Plugin):
             driver.get(f"https://www.whois.com/whois/{domain}")
             raw_whois = ""
             try:
+                WebDriverWait(driver, 90).until(
+                    EC.text_to_be_present_in_element(By.TAG_NAME, "pre")
+                )
                 raw_whois = driver.find_element(
                     by=By.TAG_NAME, value="pre"
                 ).text
@@ -64,16 +70,16 @@ class Website(ob.Plugin):
                 raise OBPluginError(
                     "Captcha encountered, please try again later."
                 )
-            whois_entity = await ob.Registry.get_plugin("whois")
+            whois_entity = await EntityRegistry.get_plugin("whois")
             
-            return whois_entity.blueprint(
+            return whois_entity.create(
                 whois_data="\n".join(self._parse_whois(raw_whois)),
                 raw_whois_data=raw_whois
             )
 
-    @ob.transform(label="To DNS", icon="world")
-    async def transform_to_dns(self, node, use):
-        dns_entity = await ob.Registry.get_plugin('dns')
+    @transform(label="To DNS", icon="world")
+    async def to_dns(self, node, use):
+        dns_entity = await EntityRegistry.get_plugin('dns')
         data = dns_entity.data_template()
 
         if len(node.domain) == 0:
@@ -101,7 +107,7 @@ class Website(ob.Plugin):
                 record_type = dns_entity.record(key, entry)
                 record = record_type["text"]
                 del record_type["text"]
-                blueprint = dns_entity.blueprint(
+                blueprint = dns_entity.create(
                     record_type=record_type,
                     value=record,
                 )

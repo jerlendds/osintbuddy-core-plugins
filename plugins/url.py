@@ -1,19 +1,23 @@
 from urllib.parse import urlparse
 from osintbuddy.elements import TextInput
-import osintbuddy as ob
+from osintbuddy import transform, DiscoverableEntity, EntityRegistry
 
 
-class URL(ob.Plugin):
+
+class URL(DiscoverableEntity):
     label = "URL"
+    icon = "link"
     color = '#642CA9'
-    entity = [
+
+    properties = [
         TextInput(label="URL", icon="link"),
     ]
-    author = "the OSINTBuddy team"
-    icon = "link"
 
-    @ob.transform(label="To website", icon="world-www")
+    author = "Team@ICG"
+    description = ""
+
+    @transform(label="To website", icon="world-www")
     async def transform_to_website(self, node, **kwargs):
-        WebsitePlugin = await ob.Registry.get_plugin('website')
+        website_entity = await EntityRegistry.get_plugin('website')
         domain = urlparse(node.url).netloc
-        return WebsitePlugin.blueprint(domain=domain)
+        return website_entity.create(domain=domain)

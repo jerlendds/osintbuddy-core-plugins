@@ -1,22 +1,23 @@
 from urllib.parse import urlparse
 from osintbuddy.elements import Title, CopyText
-import osintbuddy as ob
+from osintbuddy import transform, DiscoverableEntity, EntityRegistry
 
 
-class GoogleCacheResult(ob.Plugin):
+class GoogleCacheResult(DiscoverableEntity):
     label = "Cache Result"
-    show_label = False
-    color = "#145070"
-    entity = [
-        Title(label="result", title="Some title"),
-        [
-            CopyText(label="URL"),
-        ],
-    ]
     icon = "brand-google-filled"
-    author = "the OSINTBuddy team"
+    color = "#145070"
+    show_label = False
 
-    @ob.transform(label="To website", icon="world-www")
+    properties = [
+        Title(label="result", title="Some title"),
+        [CopyText(label="URL")],
+    ]
+
+    author = "Team@ICG"
+    description = ""
+
+    @transform(label="To website", icon="world-www")
     async def transform_to_website(self, node, use):
-        WebsitePlugin = await ob.Registry.get_plugin('website')
-        return WebsitePlugin.blueprint(domain=urlparse(node.url).netloc)
+        WebsitePlugin = await EntityRegistry.get_plugin('website')
+        return WebsitePlugin.create(domain=urlparse(node.url).netloc)

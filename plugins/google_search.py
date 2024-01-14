@@ -1,30 +1,31 @@
 import httpx
 from osintbuddy.elements import TextInput
 from osintbuddy.errors import OBPluginError, NodeMissingValueError
-
-import osintbuddy as ob
-
+from osintbuddy import transform, DiscoverableEntity, EntityRegistry
 
 
 
-class GoogleSearch(ob.Plugin):
+
+class GoogleSearch(DiscoverableEntity):
     label = "Google Search"
+    icon = "brand-google-filled"
     color = "#3D78D9"
-    entity: list[TextInput] = [
+
+    properties: list[TextInput] = [
         TextInput(label="Query", icon="search"),
         TextInput(label="Pages", icon="123", value="3"),
     ]
-    icon = "brand-google-filled"
-    author = "the OSINTBuddy team"
+
+    author = "Team@ICG"
     description = "Search google using the advanced operators you're used to"
 
-    @ob.transform(label="To results")
+    @transform(label="To results")
     async def transform_to_google_results(self, node, use):
         # print("@todo refactor transform node API: ", node)
         results = []
-        google_result_entity = await ob.Registry.get_plugin('google_result')
+        google_result_entity = await EntityRegistry.get_plugin('google_result')
         for result in await self.search_google(node.query, node.pages):
-            blueprint = google_result_entity.blueprint(
+            blueprint = google_result_entity.create(
                 result={
                     "title": result.get("title"),
                     "subtitle": result.get("breadcrumb"),

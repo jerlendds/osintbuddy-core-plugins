@@ -2,22 +2,24 @@ import httpx
 from osintbuddy.elements import TextInput
 from osintbuddy.errors import OBPluginError, NodeMissingValueError
 import httpx
-import osintbuddy as ob
+from osintbuddy import transform, DiscoverableEntity, EntityRegistry
 
 
 
-class GoogleCacheSearch(ob.Plugin):
+class GoogleCacheSearch(DiscoverableEntity):
     label = "Cache Search"
+    icon = "brand-google-filled"
     color = "#145070"
-    entity = [
+
+    properties = [
         TextInput(label="Query", icon="search"),
         TextInput(label="Pages", icon="123", default="3"),
     ]
-    author = "the OSINTBuddy team"
+
+    author = "Team@ICG"
     description = "Search the google cache"
-    icon = "brand-google-filled"
     
-    @ob.transform(label="To cache results")
+    @transform(label="To cache results")
     async def transform_to_google_cache_results(self, node, use):
         return await self.search_google_cache(node.query, node.pages)
 
@@ -37,11 +39,11 @@ class GoogleCacheSearch(ob.Plugin):
                 "We ran into an error crawling googles cache. Please try again."
             )
         results = []
-        GoogleCacheResult = await ob.Registry.get_plugin('cache_result')
+        GoogleCacheResult = await EntityRegistry.get_plugin('cache_result')
         for result in self._parse_cache_results(
             cache_results
         ).get("results"):
-            blueprint = GoogleCacheResult.blueprint(
+            blueprint = GoogleCacheResult.create(
                 result={
                     "title": result.get("title"),
                     "text": result.get("description"),

@@ -1,13 +1,13 @@
 from osintbuddy.elements import Title, Empty, TextInput
-import osintbuddy as ob
+from osintbuddy import transform, DiscoverableEntity, EntityRegistry
 
-class IPGeolocation(ob.Plugin):
+class IPGeolocation(DiscoverableEntity):
     label = "IP Geolocation"
-    show_label = False
-    entity = "map-pin"
-    author = "the OSINTBuddy team"
+    icon = "map-pin"
     color = "#FFCC33"
-    entity = [
+    show_label = False
+
+    properties = [
         [
             TextInput(label="City", icon="map-pin"),
             TextInput(label="ASN", icon="access-point"),
@@ -45,4 +45,7 @@ class IPGeolocation(ob.Plugin):
             TextInput(label="Abuse Contact", icon="map-pin"),
         ],
     ]
+
+    author = "Team@ICG"
+    description = "Metadata and geolocation data from an IP address"
 

@@ -1,22 +1,24 @@
 from osintbuddy.elements import TextInput
-import osintbuddy as ob
+from osintbuddy import transform, DiscoverableEntity, EntityRegistry
 
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 
-class Username(ob.Plugin):
+class Username(DiscoverableEntity):
     label = "Username"
+    icon = "user-search"
     color = "#BF288D"
-    entity = [
+
+    properties = [
         TextInput(label="Username", icon="user-search"),
     ]
-    icon = "user-search"
-    author = ["the OSINTBuddy team", "Artemii"]
+
+    author = ["Team@ICG", "Artemii"]
     description = "Reveal social profiles"
 
-    @ob.transform(label='To profile', icon='user')
+    @transform(label='To profile', icon='user')
     async def transform_to_profile(self, node, use):
         with use.get_driver() as driver:
             driver.get('https://whatsmyname.app/')
@@ -27,10 +29,10 @@ class Username(ob.Plugin):
             )
             records = driver.find_elements(By.XPATH, "//*[@id='collectiontable']/tbody/tr")
             data = []
-            SocialProfilePlugin = await ob.Registry.get_plugin('username_profile')
+            SocialProfilePlugin = await EntityRegistry.get_plugin('username_profile')
             for elm in records:
                 tds = elm.find_elements(by=By.TAG_NAME, value='td')
-                blueprint = SocialProfilePlugin.blueprint(
+                blueprint = SocialProfilePlugin.create(
                     category=tds[2].text,
                     site=tds[0].text,
                     link=tds[3].text,

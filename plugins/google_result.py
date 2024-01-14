@@ -1,20 +1,26 @@
-import osintbuddy as ob
+from osintbuddy import transform, DiscoverableEntity, EntityRegistry
 from osintbuddy.elements import Title, CopyText
 from urllib.parse import urlparse
 
 
-class GoogleResult(ob.Plugin):
+class GoogleResult(DiscoverableEntity):
     label = "Google Result"
-    show_label = False
-    color = "#308e49"
-    entity = [Title(label="result"), CopyText(label="url")]
     icon = "brand-google-filled"
-    author = "the OSINTBuddy team"
+    color = "#308e49"
+    show_label = False
 
-    @ob.transform(label="To website", icon="world")
+    properties = [
+        Title(label="result"),
+        CopyText(label="url")
+    ]
+
+    author = "Team@ICG"
+    description = ""
+
+    @transform(label="To website", icon="world")
     async def transform_to_website(self, node, use):
-        website_entity = await ob.Registry.get_plugin('website')
-        blueprint = website_entity.blueprint(
+        website_entity = await EntityRegistry.get_plugin('website')
+        blueprint = website_entity.create(
             domain=urlparse(node.url).netloc
         )
         return blueprint

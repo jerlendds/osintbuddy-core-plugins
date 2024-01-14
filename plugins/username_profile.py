@@ -1,24 +1,26 @@
 from osintbuddy.elements import TextInput
-import osintbuddy as ob
+from osintbuddy import transform, DiscoverableEntity, EntityRegistry
 
-class UsernameProfile(ob.Plugin):
+class UsernameProfile(DiscoverableEntity):
     label = "Username Profile"
-    show_label = False
-    color = "#D842A6"
     icon = "user-scan"
-    author = "the OSINTBuddy team"
-    
-    entity = [
+    color = "#D842A6"
+    show_label = False
+
+    properties = [
         TextInput(label='Link', icon='link'),
         TextInput(label='Category', icon='category'),
         TextInput(label='Site', icon='world'),
         TextInput(label='Username', icon='user'),
     ]
+    
+    author = "Team@ICG"
+    description = ""
 
-    @ob.transform(label="To URL", icon="link")
+    @transform(label="To URL", icon="link")
     async def transform_to_url(self, node, use):
-        url_entity = await ob.Registry.get_plugin('url')
-        url_node = url_entity.blueprint(
+        url_entity = await EntityRegistry.get_plugin('url')
+        url_node = url_entity.create(
             url=node.link
         )
         return url_node

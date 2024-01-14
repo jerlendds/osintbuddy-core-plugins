@@ -1,32 +1,37 @@
 import json
 import re
 from osintbuddy.elements import TextInput, DropdownInput
-import osintbuddy as ob
+from osintbuddy import transform, DiscoverableEntity, EntityRegistry
 
 
+DNS_OPTIONS = [
+    { "label": "NS" },
+    { "label": "A" },
+    { "label": "AAAA" },
+    { "label": "CNAME" },
+    { "label": "MX" },
+    { "label": "SOA" },
+    { "label": "TXT" },
+    { "label": "PTR" },
+    { "label": "SRV" },
+    { "label": "CERT" },
+    { "label": "DCHID" },
+    { "label": "DNAME" }
+]
 
-class DNS(ob.Plugin):
+class DNS(DiscoverableEntity):
     label = "DNS"
+    icon = "directions"
     color = "#2181B5"
-    icon = "creative-commons-nd"
-    entity = [
+
+    properties = [
         TextInput(label="Value", icon="file-description"),
-        DropdownInput(label="Record Type", options=[
-            { "label": "NS" },
-            { "label": "A" },
-            { "label": "AAAA" },
-            { "label": "CNAME" },
-            { "label": "MX" },
-            { "label": "SOA" },
-            { "label": "TXT" },
-            { "label": "PTR" },
-            { "label": "SRV" },
-            { "label": "CERT" },
-            { "label": "DCHID" },
-            { "label": "DNAME" }
-        ])
+        DropdownInput(label="Record Type", options=DNS_OPTIONS)
     ]
 
+    author = ["Team@ICG", "Bugfest"]
+    description = ""
+    
     _items = [
         "NS",
         "A",
@@ -42,7 +47,7 @@ class DNS(ob.Plugin):
         "DNAME",
     ]
 
-    author = ["the OSINTBuddy team", "Bugfest"]
+
 
     @classmethod
     def data_template(cls):
@@ -64,14 +69,14 @@ class DNS(ob.Plugin):
             "text": _data,
         }
 
-    @ob.transform(label="Extract IP", icon="microscope")
+    @transform(label="Extract IP", icon="microscope")
     async def transform_extract_ip(self, node, use) -> list:
         data = node.value
         ip_regexp = re.compile("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}")
         results = []
-        IPAddressPlugin = await ob.Registry.get_plugin('ip')
+        IPAddressPlugin = await EntityRegistry.get_plugin('ip')
         for ip in ip_regexp.findall(data):
-            blueprint = IPAddressPlugin.blueprint(ip_address=ip)
+            blueprint = IPAddressPlugin.create(ip_address=ip)
             results.append(blueprint)
         return results
 

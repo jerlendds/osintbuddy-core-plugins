@@ -1,14 +1,13 @@
 from osintbuddy.elements import Title, CopyText, Text
-import osintbuddy as ob
+from osintbuddy import transform, DiscoverableEntity, EntityRegistry
 
-class CSESearchResultsPlugin(ob.Plugin):
+class CSESearchResult(DiscoverableEntity):
     label = "CSE Result"
-    show_label = False
-    color = "#058F63"
     icon = "brand-google-filled"
-    author = "the OSINTBuddy team"
+    color = "#058F63"
+    show_label = False
     
-    entity = [
+    properties = [
         Title(label="title"),
         Text(label="breadcrumb"),
         Text(label="content"),
@@ -16,7 +15,10 @@ class CSESearchResultsPlugin(ob.Plugin):
         CopyText(label="Cache URL"),
     ]
 
-    @ob.transform(label="To URL", icon='link')
+    author = "Team@ICG"
+    description = ""
+
+    @transform(label="To URL", icon='link')
     async def transform_to_url(self, node, **kwargs):
-        url_entity = await ob.Registry.get_plugin('url')
-        return url_entity.blueprint(url=node.url)
+        url_entity = await EntityRegistry.get_plugin('url')
+        return url_entity.create(url=node.url)

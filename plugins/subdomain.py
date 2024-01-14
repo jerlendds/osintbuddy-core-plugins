@@ -1,13 +1,16 @@
 from osintbuddy.elements import TextInput
-import osintbuddy as ob
+from osintbuddy import transform, DiscoverableEntity, EntityRegistry
 
 
-class Subdomain(ob.Plugin):
+class Subdomain(DiscoverableEntity):
     label = "Subdomain"
-    show_label = False
+    icon = "submarine"
     color = "#FFCC33"
-    entity = [
+    show_label = False
+
+    properties = [
         TextInput(label="Subdomain", icon="world"),
     ]
-    icon = "submarine"
-    author = 'the OSINTBuddy team'
+
+    author = "Team@ICG"
+    description = ""

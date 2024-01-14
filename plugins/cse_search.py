@@ -6,8 +6,7 @@ import httpx
 
 from osintbuddy.elements import TextInput, DropdownInput
 from osintbuddy.errors import OBPluginError
-import osintbuddy as ob
-
+from osintbuddy import transform, DiscoverableEntity, EntityRegistry
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0',
@@ -34,14 +33,12 @@ except Exception as e:
     print('Error loading CSE categories!', e)
 
 
-class CSESearch(ob.Plugin):
+class CSESearch(DiscoverableEntity):
     label = "CSE Search"
-
-    description = 'Search through hundreds of categorized custom search engines from Google'
-    author = "the OSINTBuddy team"
     icon = "brand-google-filled"
     color = "#2C7237"
-    entity = [
+
+    properties = [
         [
             TextInput(label="Query", icon="search"),
             DropdownInput(label="Max Results", value={"label": "100"}, options=[
@@ -60,13 +57,16 @@ class CSESearch(ob.Plugin):
         DropdownInput(label="CSE Categories", options=cse_link_options)
     ]
 
+    author = "Team@ICG"
+    description = 'Search through hundreds of categorized custom search engines from Google'
+
     async def _map_cse_to_blueprint(self, resp):
         entities = []
-        cse_search_result = await ob.Registry.get_plugin('cse_result')
+        cse_search_result = await EntityRegistry.get_plugin('cse_result')
         if results := resp.get("results"):
             for result in results:
                 breadcrumb = result.get("breadcrumbUrl", {})
-                blueprint = cse_search_result.blueprint(
+                blueprint = cse_search_result.create(
                     title=result.get("titleNoFormatting"),
                     content=result.get("contentNoFormatting"),
                     breadcrumb=f"{breadcrumb.get('host')} {' '.join(breadcrumb.get('crumbs', []))}",
@@ -76,7 +76,7 @@ class CSESearch(ob.Plugin):
                 entities.append(blueprint)
         return entities
 
-    @ob.transform(label="To cse results", icon="search")
+    @transform(label="To cse results", icon="search")
     async def transform_to_cse_results(self, node, use):
         if not node.cse_categories:
             raise OBPluginError('The CSE Category field is required to transform.')

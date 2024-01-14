@@ -5,31 +5,35 @@ from osintbuddy.elements import TextInput
 from osintbuddy.errors import OBPluginError
 from osintbuddy.utils import to_camel_case
 import httpx
-import osintbuddy as ob
+from osintbuddy import transform, DiscoverableEntity, EntityRegistry
 
 
-class IP(ob.Plugin):
+class IP(DiscoverableEntity):
     label = "IP"
-    color = "#F47C00"
-    entity = [TextInput(label="IP Address", icon="map-pin")]
     icon = "building-broadcast-tower"
-    author = "the OSINTBuddy team"
+    color = "#F47C00"
+
+    properties = [
+        TextInput(label="IP Address", icon="map-pin")
+    ]
+
+    author = "Team@ICG"
     description = "Reveal details on an IP address"
 
-    @ob.transform(label="To website", icon="world")
+    @transform(label="To website", icon="world")
     async def transform_to_website(self, node, use):
-        website_entity = await ob.Registry.get_plugin('website')
+        website_entity = await EntityRegistry.get_plugin('website')
         try:
             resolved = socket.gethostbyaddr(node.ip_address)
             if len(resolved) >= 1:
-                blueprint = website_entity.blueprint(domain=resolved[0])
+                blueprint = website_entity.create(domain=resolved[0])
                 return blueprint
             else:
                 raise OBPluginError("No results found")
         except (socket.gaierror, socket.herror):
             raise OBPluginError("We ran into a socket error. Please try again")
 
-    @ob.transform(label="To subdomains", icon="world")
+    @transform(label="To subdomains", icon="world")
     async def transform_to_subdomains(self, node, use):
         nodes = []
         params = {
@@ -45,13 +49,13 @@ class IP(ob.Plugin):
                 data = response.content.decode("utf8").split("\n")
         except Exception as e:
             raise OBPluginError(e)
-        subdomain_entity = await ob.Registry.get_plugin('subdomain')
+        subdomain_entity = await EntityRegistry.get_plugin('subdomain')
         for subdomain in data:
-            blueprint = subdomain_entity.blueprint(subdomain=subdomain)
+            blueprint = subdomain_entity.create(subdomain=subdomain)
             nodes.append(blueprint)
         return nodes
 
-    @ob.transform(label="To geolocation", icon="map-pin")
+    @transform(label="To geolocation", icon="map-pin")
     async def transform_to_geolocation(self, node, use):
         summary_rows = [
             "ASN",
@@ -89,8 +93,8 @@ class IP(ob.Plugin):
                 geolocation[to_camel_case(row)] = driver.find_element(
                     by=By.XPATH, value=self.get_geo_xpath(row)
                 ).text
-        IPGeolocationPlugin = await ob.Registry.get_plugin('ip_geolocation')
-        blueprint = IPGeolocationPlugin.blueprint(
+        IPGeolocationPlugin = await EntityRegistry.get_plugin('ip_geolocation')
+        blueprint = IPGeolocationPlugin.create(
             city=geolocation.get("city"),
             state=geolocation.get("state"),
             country=geolocation.get("country"),
