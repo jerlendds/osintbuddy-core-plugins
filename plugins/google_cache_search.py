@@ -19,8 +19,8 @@ class GoogleCacheSearch(DiscoverableEntity):
     description = "Raw html backups of web content aka Google Cache Search"
     
     @transform(label="To cache results")
-    async def transform_to_google_cache_results(self, node, use):
-        return await self.search_google_cache(node.query, node.pages)
+    async def transform_to_google_cache_results(self, context, use):
+        return await self.search_google_cache(context.query, context.pages)
 
     async def search_google_cache(self, query, pages):
         cache_results = []

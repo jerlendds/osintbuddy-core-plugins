@@ -18,9 +18,9 @@ class GoogleResult(DiscoverableEntity):
     description = "Search Engine Results from Google"
 
     @transform(label="To website", icon="world")
-    async def transform_to_website(self, node, use):
+    async def transform_to_website(self, context, use):
         website_entity = await EntityRegistry.get_plugin('website')
         blueprint = website_entity.create(
-            domain=urlparse(node.url).netloc
+            domain=urlparse(context.url).netloc
         )
         return blueprint

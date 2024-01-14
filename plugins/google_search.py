@@ -20,11 +20,11 @@ class GoogleSearch(DiscoverableEntity):
     description = "Google with all the advanced operators you're used to"
 
     @transform(label="To results")
-    async def transform_to_google_results(self, node, use):
+    async def transform_to_google_results(self, context, use):
         # print("@todo refactor transform node API: ", node)
         results = []
         google_result_entity = await EntityRegistry.get_plugin('google_result')
-        for result in await self.search_google(node.query, node.pages):
+        for result in await self.search_google(context.query, context.pages):
             blueprint = google_result_entity.create(
                 result={
                     "title": result.get("title"),

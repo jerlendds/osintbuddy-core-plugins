@@ -19,6 +19,6 @@ class GoogleCSEResult(DiscoverableEntity):
     description = "Custom Search Engine Results from Google"
 
     @transform(label="To URL", icon='link')
-    async def transform_to_url(self, node, **kwargs):
+    async def transform_to_url(self, context, **kwargs):
         url_entity = await EntityRegistry.get_plugin('url')
-        return url_entity.create(url=node.url)
+        return url_entity.create(url=context.url)

@@ -21,10 +21,10 @@ class IP(DiscoverableEntity):
     description = "A device connected to a computer network "
 
     @transform(label="To website", icon="world")
-    async def transform_to_website(self, node, use):
+    async def transform_to_website(self, context, use):
         website_entity = await EntityRegistry.get_plugin('website')
         try:
-            resolved = socket.gethostbyaddr(node.ip_address)
+            resolved = socket.gethostbyaddr(context.ip_address)
             if len(resolved) >= 1:
                 blueprint = website_entity.create(domain=resolved[0])
                 return blueprint
@@ -34,10 +34,10 @@ class IP(DiscoverableEntity):
             raise OBPluginError("We ran into a socket error. Please try again")
 
     @transform(label="To subdomains", icon="world")
-    async def transform_to_subdomains(self, node, use):
+    async def transform_to_subdomains(self, context, use):
         nodes = []
         params = {
-            "q": node.ip_address,
+            "q": context.ip_address,
         }
         try:
             async with httpx.AsyncClient() as client:
@@ -56,7 +56,7 @@ class IP(DiscoverableEntity):
         return nodes
 
     @transform(label="To geolocation", icon="map-pin")
-    async def transform_to_geolocation(self, node, use):
+    async def transform_to_geolocation(self, context, use):
         summary_rows = [
             "ASN",
             "Hostname",
@@ -76,7 +76,7 @@ class IP(DiscoverableEntity):
             "Timezone",
             "Coordinates",
         ]
-        if len(node.ip_address) == 0:
+        if len(context.ip_address) == 0:
             raise OBPluginError(
                 "A valid IP Address is a required field for this transform"
             )
@@ -84,7 +84,7 @@ class IP(DiscoverableEntity):
         geolocation = {}
         summary = {}
         with use.get_driver() as driver:
-            driver.get(f'https://ipinfo.io/{node.ip_address}')
+            driver.get(f'https://ipinfo.io/{context.ip_address}')
             for row in summary_rows:
                 summary[to_camel_case(row)] = driver.find_element(
                     by=By.XPATH, value=self.get_summary_xpath(row)

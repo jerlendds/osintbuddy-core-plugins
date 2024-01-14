@@ -70,8 +70,8 @@ class DNS(DiscoverableEntity):
         }
 
     @transform(label="Extract IP", icon="microscope")
-    async def transform_extract_ip(self, node, use) -> list:
-        data = node.value
+    async def transform_extract_ip(self, context, use) -> list:
+        data = context.value
         ip_regexp = re.compile("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}")
         results = []
         IPAddressPlugin = await EntityRegistry.get_plugin('ip')

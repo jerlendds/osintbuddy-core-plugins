@@ -77,10 +77,10 @@ class GoogleCSESearch(DiscoverableEntity):
         return entities
 
     @transform(label="To cse results", icon="search")
-    async def transform_to_cse_results(self, node, use):
-        if not node.cse_categories:
+    async def transform_to_cse_results(self, context, use):
+        if not context.cse_categories:
             raise OBPluginError('The CSE Category field is required to transform.')
-        cse_results = await self.get_cse_results(node.query, node.cse_categories, node.max_results)
+        cse_results = await self.get_cse_results(context.query, context.cse_categories, context.max_results)
         return await self._map_cse_to_blueprint(cse_results)
 
     async def get_cse_results(self, query, url, max_results=100):

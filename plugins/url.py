@@ -17,7 +17,7 @@ class URL(DiscoverableEntity):
     description = "Uniform Resource Locator (URL) for a unique Web resource"
 
     @transform(label="To website", icon="world-www")
-    async def transform_to_website(self, node, **kwargs):
+    async def transform_to_website(self, context, **kwargs):
         website_entity = await EntityRegistry.get_plugin('website')
-        domain = urlparse(node.url).netloc
+        domain = urlparse(context.url).netloc
         return website_entity.create(domain=domain)

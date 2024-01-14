@@ -22,19 +22,19 @@ class Website(DiscoverableEntity):
     description = "Web pages and related content that is identified by a domain name"
 
     @transform(label="To IP", icon="building-broadcast-tower")
-    async def to_ip(self, node, use):
+    async def to_ip(self, context, use):
         ip_entity = await EntityRegistry.get_plugin('ip')
         transform = ip_entity.create(
-            ip_address=socket.gethostbyname(node.domain)
+            ip_address=socket.gethostbyname(context.domain)
         )
         return transform
 
     @transform(label="To google", icon="world")
-    async def to_google(self, node, use):
+    async def to_google(self, context, use):
         results = []
         google_search_entity = await EntityRegistry.get_plugin('google_search')
         for result in await google_search_entity().search_google(
-            query=node.domain, pages="3"
+            query=context.domain, pages="3"
         ):
             google_result_entity = await EntityRegistry.get_plugin('google_result')
             blueprint = google_result_entity.create(
@@ -49,8 +49,8 @@ class Website(DiscoverableEntity):
         return results
 
     @transform(label="To WHOIS", icon="world")
-    async def to_whois(self, node, use):
-        domain = node.domain
+    async def to_whois(self, context, use):
+        domain = context.domain
         if len(domain.split(".")) > 2:
             domain = domain.split(".")
             domain = domain[len(domain) - 2] + "." + domain[len(domain) - 1]
@@ -78,16 +78,16 @@ class Website(DiscoverableEntity):
             )
 
     @transform(label="To DNS", icon="world")
-    async def to_dns(self, node, use):
+    async def to_dns(self, context, use):
         dns_entity = await EntityRegistry.get_plugin('dns')
         data = dns_entity.data_template()
 
-        if len(node.domain) == 0:
+        if len(context.domain) == 0:
             raise NodeMissingValueError(
                 "A website is required to process dns records"
             )
 
-        website = node.domain
+        website = context.domain
         website_parsed = urlparse(website)
         if website_parsed.scheme:
             domain = website_parsed.netloc

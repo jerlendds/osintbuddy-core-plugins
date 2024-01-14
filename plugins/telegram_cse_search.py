@@ -19,11 +19,11 @@ class TelegramCseSearch(DiscoverableEntity):
     ]
 
     @transform(label='To CSE Search', icon='')
-    async def transform_to_websearch(self, node, use):
+    async def transform_to_websearch(self, context, use):
         cse_search_entity = await EntityRegistry.get_plugin('google_cse_search')
         cse_plugin = cse_search_entity()
         results = []
         for url in self.telegram_cse_urls:
-            resp = await cse_plugin.get_cse_results(query=node.query, cse_url=url)
+            resp = await cse_plugin.get_cse_results(query=context.query, cse_url=url)
             results.append(await cse_plugin._map_cse_to_blueprint(resp=resp))
         return [result for cse_page in results for result in cse_page]

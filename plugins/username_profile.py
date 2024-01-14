@@ -18,9 +18,9 @@ class UsernameProfile(DiscoverableEntity):
     description = "Digital social profiles for multiple platforms with categories"
 
     @transform(label="To URL", icon="link")
-    async def transform_to_url(self, node, use):
+    async def transform_to_url(self, context, use):
         url_entity = await EntityRegistry.get_plugin('url')
         url_node = url_entity.create(
-            url=node.link
+            url=context.link
         )
         return url_node
