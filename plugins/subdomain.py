@@ -13,4 +13,4 @@ class Subdomain(DiscoverableEntity):
     ]
 
     author = "Team@ICG"
-    description = ""
+    description = "A domain that is part of a larger domain"

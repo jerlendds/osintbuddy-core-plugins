@@ -16,7 +16,7 @@ class GoogleCSEResult(DiscoverableEntity):
     ]
 
     author = "Team@ICG"
-    description = ""
+    description = "Custom Search Engine Results from Google"
 
     @transform(label="To URL", icon='link')
     async def transform_to_url(self, node, **kwargs):

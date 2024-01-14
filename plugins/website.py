@@ -19,7 +19,7 @@ class Website(DiscoverableEntity):
     ]
 
     author = "Team@ICG"
-    description = "A collection of web pages and related content that is identified by a common domain name and published on at least one web server"
+    description = "Web pages and related content that is identified by a domain name"
 
     @transform(label="To IP", icon="building-broadcast-tower")
     async def to_ip(self, node, use):

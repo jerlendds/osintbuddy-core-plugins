@@ -14,7 +14,7 @@ class URL(DiscoverableEntity):
     ]
 
     author = "Team@ICG"
-    description = ""
+    description = "Uniform Resource Locator (URL) for a unique Web resource"
 
     @transform(label="To website", icon="world-www")
     async def transform_to_website(self, node, **kwargs):

@@ -30,7 +30,7 @@ class DNS(DiscoverableEntity):
     ]
 
     author = ["Team@ICG", "Bugfest"]
-    description = ""
+    description = "Various information associated with domain names"
     
     _items = [
         "NS",

@@ -15,7 +15,7 @@ class UsernameProfile(DiscoverableEntity):
     ]
     
     author = "Team@ICG"
-    description = ""
+    description = "Digital social profiles for multiple platforms with categories"
 
     @transform(label="To URL", icon="link")
     async def transform_to_url(self, node, use):

@@ -17,7 +17,7 @@ class GoogleSearch(DiscoverableEntity):
     ]
 
     author = "Team@ICG"
-    description = "Search google using the advanced operators you're used to"
+    description = "Google with all the advanced operators you're used to"
 
     @transform(label="To results")
     async def transform_to_google_results(self, node, use):

@@ -18,7 +18,7 @@ class IP(DiscoverableEntity):
     ]
 
     author = "Team@ICG"
-    description = "Reveal details on an IP address"
+    description = "A device connected to a computer network "
 
     @transform(label="To website", icon="world")
     async def transform_to_website(self, node, use):

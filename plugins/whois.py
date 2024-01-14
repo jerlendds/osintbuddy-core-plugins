@@ -14,4 +14,4 @@ class Whois(DiscoverableEntity):
     ]
 
     author = "Team@ICG"
-    description = "Raw public information from a WHOIS database - ICANN, the International Corporation for Assigned Names and Numbers, regulates the WHOIS database"
+    description = "Raw public information from a WHOIS database"

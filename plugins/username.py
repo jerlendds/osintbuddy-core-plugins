@@ -16,7 +16,7 @@ class Username(DiscoverableEntity):
     ]
 
     author = ["Team@ICG", "Artemii"]
-    description = "Reveal social profiles"
+    description = "Identification for a login system or online service"
 
     @transform(label='To profile', icon='user')
     async def transform_to_profile(self, node, use):

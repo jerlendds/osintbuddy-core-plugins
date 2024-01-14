@@ -47,5 +47,5 @@ class IPGeolocation(DiscoverableEntity):
     ]
 
     author = "Team@ICG"
-    description = "Metadata and geolocation data from an IP address"
+    description = "The geolocation estimate for a device connected to a computer network "
 

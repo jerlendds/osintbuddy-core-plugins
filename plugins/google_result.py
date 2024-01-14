@@ -15,7 +15,7 @@ class GoogleResult(DiscoverableEntity):
     ]
 
     author = "Team@ICG"
-    description = ""
+    description = "Search Engine Results from Google"
 
     @transform(label="To website", icon="world")
     async def transform_to_website(self, node, use):
