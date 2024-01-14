@@ -33,8 +33,8 @@ except Exception as e:
     print('Error loading CSE categories!', e)
 
 
-class CSESearch(DiscoverableEntity):
-    label = "CSE Search"
+class GoogleCSESearch(DiscoverableEntity):
+    label = "Google CSE Search"
     icon = "brand-google-filled"
     color = "#2C7237"
 

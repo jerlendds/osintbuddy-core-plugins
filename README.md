@@ -1,6 +1,7 @@
-# The core OSINTBuddy plugins
+# The core ~~OSINTBuddy~~ ICG plugins
 
 Learn more about the project at [github.com/jerlendds/osintbuddy](https://github.com/jerlendds/osintbuddy)
 
 
-[2023-12-02_demo.webm](https://github.com/jerlendds/osintbuddy/assets/29207058/a7feba13-d1ca-43a0-ba25-b5c899eae89c)
+[2024-01-09 20-55.webm](https://github.com/jerlendds/osintbuddy/assets/29207058/fb07fa95-30af-45aa-a75b-2fa1473bc37b)
+

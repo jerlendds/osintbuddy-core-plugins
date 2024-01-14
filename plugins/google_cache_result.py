@@ -4,7 +4,7 @@ from osintbuddy import transform, DiscoverableEntity, EntityRegistry
 
 
 class GoogleCacheResult(DiscoverableEntity):
-    label = "Cache Result"
+    label = "Google Cache Result"
     icon = "brand-google-filled"
     color = "#145070"
     show_label = False

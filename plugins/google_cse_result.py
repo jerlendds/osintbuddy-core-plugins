@@ -1,8 +1,8 @@
 from osintbuddy.elements import Title, CopyText, Text
 from osintbuddy import transform, DiscoverableEntity, EntityRegistry
 
-class CSESearchResult(DiscoverableEntity):
-    label = "CSE Result"
+class GoogleCSEResult(DiscoverableEntity):
+    label = "Google CSE Result"
     icon = "brand-google-filled"
     color = "#058F63"
     show_label = False
