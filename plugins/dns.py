@@ -47,8 +47,6 @@ class DNS(DiscoverableEntity):
         "DNAME",
     ]
 
-
-
     @classmethod
     def data_template(cls):
         return {k: None for k in cls._items}
