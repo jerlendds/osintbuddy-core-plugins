@@ -38,11 +38,11 @@ class GoogleCacheSearch(DiscoverableEntity):
                 "We ran into an error crawling googles cache. Please try again."
             )
         results = []
-        GoogleCacheResult = await EntityRegistry.get_plugin('google_cache_result')
+        cache_result_entity = await EntityRegistry.get_plugin('google_cache_result')
         for result in self._parse_cache_results(
             cache_results
         ).get("results"):
-            blueprint = GoogleCacheResult.create(
+            blueprint = cache_result_entity.create(
                 result={
                     "title": result.get("title"),
                     "text": result.get("description"),

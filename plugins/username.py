@@ -29,10 +29,10 @@ class Username(DiscoverableEntity):
             )
             records = driver.find_elements(By.XPATH, "//*[@id='collectiontable']/tbody/tr")
             data = []
-            SocialProfilePlugin = await EntityRegistry.get_plugin('username_profile')
+            social_profile_entity = await EntityRegistry.get_plugin('username_profile')
             for elm in records:
                 tds = elm.find_elements(by=By.TAG_NAME, value='td')
-                blueprint = SocialProfilePlugin.create(
+                blueprint = social_profile_entity.create(
                     category=tds[2].text,
                     site=tds[0].text,
                     link=tds[3].text,

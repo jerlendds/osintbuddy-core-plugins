@@ -62,7 +62,7 @@ class GoogleCSESearch(DiscoverableEntity):
 
     async def _map_cse_to_blueprint(self, resp):
         entities = []
-        cse_search_result = await EntityRegistry.get_plugin('cse_result')
+        cse_search_result = await EntityRegistry.get_plugin('google_cse_result')
         if results := resp.get("results"):
             for result in results:
                 breadcrumb = result.get("breadcrumbUrl", {})

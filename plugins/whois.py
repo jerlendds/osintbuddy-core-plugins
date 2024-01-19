@@ -1,5 +1,5 @@
 from osintbuddy import DiscoverableEntity
-from osintbuddy.elements import CopyText, TextAreaInput, Empty
+from osintbuddy.elements import TextAreaInput, Empty
 
 
 class Whois(DiscoverableEntity):

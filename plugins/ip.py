@@ -93,8 +93,8 @@ class IP(DiscoverableEntity):
                 geolocation[to_camel_case(row)] = driver.find_element(
                     by=By.XPATH, value=self.get_geo_xpath(row)
                 ).text
-        IPGeolocationPlugin = await EntityRegistry.get_plugin('ip_geolocation')
-        blueprint = IPGeolocationPlugin.create(
+        ip_geo_entity = await EntityRegistry.get_plugin('ip_geolocation')
+        blueprint = ip_geo_entity.create(
             city=geolocation.get("city"),
             state=geolocation.get("state"),
             country=geolocation.get("country"),

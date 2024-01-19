@@ -74,10 +74,10 @@ class DNS(DiscoverableEntity):
         data = context.value
         ip_regexp = re.compile("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}")
         results = []
-        IPAddressPlugin = await EntityRegistry.get_plugin('ip')
+        ip_entity = await EntityRegistry.get_plugin('ip')
         for ip in ip_regexp.findall(data):
-            blueprint = IPAddressPlugin.create(ip_address=ip)
-            results.append(blueprint)
+            transform_result = ip_entity.create(ip_address=ip)
+            results.append(transform_result)
         return results
 
 

@@ -48,6 +48,17 @@ class Website(DiscoverableEntity):
             results.append(blueprint)
         return results
 
+    @staticmethod
+    def _parse_whois(whois_data):
+        data = []
+        for line in whois_data.split("\n"):
+            if "DNSSEC" in line:
+                data.append(line)
+                break
+            else:
+                data.append(line)
+        return data
+
     @transform(label="To WHOIS", icon="world")
     async def to_whois(self, context, use):
         domain = context.domain
@@ -74,7 +85,6 @@ class Website(DiscoverableEntity):
             
             return whois_entity.create(
                 whois_data="\n".join(self._parse_whois(raw_whois)),
-                raw_whois_data=raw_whois
             )
 
     @transform(label="To DNS", icon="world")
@@ -113,14 +123,3 @@ class Website(DiscoverableEntity):
                 )
                 results.append(blueprint)
         return results
-
-    @staticmethod
-    def _parse_whois(whois_data):
-        data = []
-        for line in whois_data.split("\n"):
-            if "DNSSEC" in line:
-                data.append(line)
-                break
-            else:
-                data.append(line)
-        return data

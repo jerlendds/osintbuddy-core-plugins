@@ -19,5 +19,5 @@ class GoogleCacheResult(DiscoverableEntity):
 
     @transform(label="To website", icon="world-www")
     async def transform_to_website(self, context, use):
-        WebsitePlugin = await EntityRegistry.get_plugin('website')
-        return WebsitePlugin.create(domain=urlparse(context.url).netloc)
+        website_entity = await EntityRegistry.get_plugin('website')
+        return website_entity.create(domain=urlparse(context.url).netloc)
